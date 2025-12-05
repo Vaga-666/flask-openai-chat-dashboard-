@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Общий чат</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .message {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #f9f9f9;
+        }
+        .username {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .ai {
+            margin-top: 5px;
+            color: #27ae60;
+        }
+        textarea {
+            width: 100%;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>👥 чат</h2>
+
+    <form method="POST">
+        <input type="hidden" name="action" value="chat">
+        <textarea name="message" rows="3" placeholder="Введите сообщение..." required></textarea><br><br>
+        <button type="submit">Отправить</button>
+    </form>
+
+    <h3>История</h3>
+    {% for item in history %}
+        <div class="message">
+            <div class="username">{{ item.username }}:</div>
+            <div>{{ item.message }}</div>
+            <div class="ai"><b>AI:</b> {{ item.response }}</div>
+        </div>
+    {% endfor %}
+
+    <hr>
+
+    <h3>Настройки</h3>
+    <form method="POST">
+        <input type="hidden" name="action" value="settings">
+        <label>Макс. токенов:
+            <input type="number" name="max_tokens" value="{{ settings.max_tokens }}">
+        </label>
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <p><a href="{{ url_for('logout') }}">Выйти</a></p>
+
+</body>
+</html>
